@@ -8,10 +8,28 @@ Update your function that makes calls to Open Weather Map to accept either a zip
     <script>
       //document.querySelector("input").focus();
 
-      var req = new XMLHttpRequest();
-      req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=18504,us&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
-      req.send(null);
-      console.log(JSON.parse(req.responseText));
+      document.addEventListener('DOMContentLoaded', bindButtons);
+
+      function bindButtons(){
+        document.getElementById('zipSubmit').addEventListener('click', function(event) {
+        var req = new XMLHttpRequest();
+
+        var payload = {zip:null};
+        // saves value of field zipIn to payload.zip
+        payload.zip = document.getElementById('zipIn').value; 
+
+       // console.log(payload.zip);
+      //var zipSubmit = document.querySelector("zipSend");  
+
+        req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip +
+          ",us&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
+        req.send(null);
+
+        console.log(JSON.parse(req.responseText));
+
+        event.preventDefault();
+      })
+    }
 
     </script>
   </head>
@@ -20,17 +38,20 @@ Update your function that makes calls to Open Weather Map to accept either a zip
     <form>
       <fieldset>
         <legend> <h2>Zipcode Submission</h2> </legend>
-        <p><input id="zip" type="text"
-         value="enter zipcode"> Zipcode</p>
+        <p><input id="zipIn" type="text"
+         value="enter zip"> Zipcode</p>
          <input type="submit" id="zipSubmit">
       </fieldset>
+    </form>
 
        <!--
       <p><input id="city" type="text" 
         value="enter city, state">
        City and State</p>-->
 
-    </form>
+
+
+    <h2>Results</h2>
 
   </body>
 </html>
