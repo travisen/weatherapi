@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+Update your function that makes calls to Open Weather Map to accept either a zip code or a city and state via a form (there should be an input for both and depending on which one is used your page should construct the correct URL), add a button to submit that data and display results in a reasonable way to users. It should at least show the city, current temperature and humidity.
+-->
+
+<html>
+  <head>
+    <script>
+      //document.querySelector("input").focus();
+
+      var req = new XMLHttpRequest();
+      req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=18504,us&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
+      req.send(null);
+      console.log(JSON.parse(req.responseText));
+
+    </script>
+  </head>
+  <body>
+    <h1>Weather</h1>
+    <form>
+      <fieldset>
+        <legend> <h2>Zipcode Submission</h2> </legend>
+        <p><input id="zip" type="text"
+         value="enter zipcode"> Zipcode</p>
+         <input type="submit" id="zipSubmit">
+      </fieldset>
+
+       <!--
+      <p><input id="city" type="text" 
+        value="enter city, state">
+       City and State</p>-->
+
+    </form>
+
+  </body>
+</html>
