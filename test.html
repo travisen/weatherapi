@@ -24,8 +24,15 @@ Update your function that makes calls to Open Weather Map to accept either a zip
         req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip +
           ",us&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
         req.send(null);
+        //console.log(JSON.parse(req.responseText));
+        event.preventDefault();
+        //console.log(response.coord);
+        var response = JSON.parse(req.responseText);
 
-        console.log(JSON.parse(req.responseText));
+        console.log(response.name);
+        //console.log(response);
+        //document.getElementById('city').textContent =
+        //response.name;
 
         event.preventDefault();
       })
@@ -52,6 +59,9 @@ Update your function that makes calls to Open Weather Map to accept either a zip
 
 
     <h2>Results</h2>
+    <div id="#city"></div>
+    <div id="#temp"></div>
+    <div id="#humidity"></div>
 
   </body>
 </html>
