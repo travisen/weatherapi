@@ -13,26 +13,28 @@ Update your function that makes calls to Open Weather Map to accept either a zip
       function bindButtons(){
         document.getElementById('zipSubmit').addEventListener('click', function(event) {
         var req = new XMLHttpRequest();
-
-        var payload = {zip:null};
+        var payload = {zip:null, city: null, state: null};
         // saves value of field zipIn to payload.zip
         payload.zip = document.getElementById('zipIn').value; 
 
-       // console.log(payload.zip);
-      //var zipSubmit = document.querySelector("zipSend");  
-
-        req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip +
-          ",us&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
+        if (payload.zip != null) {
+          req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip + 
+            ",us&appid=13501a8f3bb553303d9f69da0c0027cc", false);
+        }
+        
+        if (payload.city != null) {
+          req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip + 
+            ",us&appid=13501a8f3bb553303d9f69da0c0027cc", false);
+        }
+        
         req.send(null);
-        //console.log(JSON.parse(req.responseText));
-        event.preventDefault();
-        //console.log(response.coord);
+        //event.preventDefault();
         var response = JSON.parse(req.responseText);
-
         console.log(response.name);
-        //console.log(response);
-        //document.getElementById('city').textContent =
-        //response.name;
+        console.log(response);
+        document.getElementById('city').textContent = response.name;
+        document.getElementById('temp').textContent = response.main.temp;
+        document.getElementById('humidity').textContent = response.main.humidity;
 
         event.preventDefault();
       })
@@ -51,6 +53,14 @@ Update your function that makes calls to Open Weather Map to accept either a zip
       </fieldset>
     </form>
 
+    <form>
+      <fieldset>
+        <legend> <h2>City, State Submission</h2> </legend>
+        <p><input id="cityIn" type="text"
+         value="enter city, state"> City and State</p>
+         <input type="submit" id="zipSubmit">
+      </fieldset>
+    </form>
        <!--
       <p><input id="city" type="text" 
         value="enter city, state">
@@ -59,9 +69,9 @@ Update your function that makes calls to Open Weather Map to accept either a zip
 
 
     <h2>Results</h2>
-    <div id="#city"></div>
-    <div id="#temp"></div>
-    <div id="#humidity"></div>
+    <div>City: <span id="city"></span></div>
+    <div>Temp: <span id="temp"></span>K</div>
+    <div>Humidity: <span id="humidity"></span>%</div>
 
   </body>
 </html>
