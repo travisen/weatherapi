@@ -1,44 +1,52 @@
 <!DOCTYPE html>
+
 <!--
+Name: Travis Nykaza
+
+assignment description:
 Update your function that makes calls to Open Weather Map to accept either a zip code or a city and state via a form (there should be an input for both and depending on which one is used your page should construct the correct URL), add a button to submit that data and display results in a reasonable way to users. It should at least show the city, current temperature and humidity.
 -->
-
 <html>
   <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <script>
       //document.querySelector("input").focus();
       document.addEventListener('DOMContentLoaded', bindButtons);
+      var apikey = "13501a8f3bb553303d9f69da0c0027cc";
 
       function bindButtons(){
         document.getElementById('zipSubmit').addEventListener('click', function(event) {
           var req = new XMLHttpRequest();
-          var payload = {zip:null, city: null, state: null};
+          var payload = {zip:null};
+
           // saves value of field zipIn to payload.zip
           payload.zip = document.getElementById('zipIn').value; 
+          //console.log(payload);
+          //console.log(payload.zip);
 
-          if (payload.zip != null) {
-            req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip + 
-              ",us&appid=13501a8f3bb553303d9f69da0c0027cc", false);
-          }
-           /*
-          if (payload.city != null) {
-            req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip + 
-              ",us&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
-          }
-          */
-          req.send(null);
-          event.preventDefault();
-          var response = JSON.parse(req.responseText);
-          console.log(response.name);
-          console.log(response);
-          document.getElementById('city').textContent = response.name;
-          document.getElementById('temp').textContent = response.main.temp;
-          document.getElementById('humidity').textContent = response.main.humidity;
+          req.open("POST", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip + 
+            ",us&APPID=" + apikey, true);
+          
+         req.setRequestHeader('Content-Type', 'application/json');
 
-          event.preventDefault();
+          req.addEventListener('load', function() {
+            if(req.status >= 200 && req.status < 400) {
+            var response = JSON.parse(req.responseText);
+            document.getElementById('city').textContent = response.name;
+            document.getElementById('temp').textContent = response.main.temp;
+            document.getElementById('humidity').textContent = response.main.humidity;
+            } else {
+              console.log("Error in network request: " + request.statusText);
+            }
+          });
+
+         req.send(JSON.stringify(payload));
+         event.preventDefault();
       })
 
       // submission button for city
+      /*
       document.getElementById('citySubmit').addEventListener('click', function(event) {
           var req = new XMLHttpRequest();
 
@@ -48,7 +56,7 @@ Update your function that makes calls to Open Weather Map to accept either a zip
            
           if (payload.city != null) {
             req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.city + 
-              "&appid=fa7d80c48643dfadde2cced1b1be6ca1", false);
+              "&appid=" + apikey, false);
           }
           
           req.send(null);
@@ -61,7 +69,7 @@ Update your function that makes calls to Open Weather Map to accept either a zip
           document.getElementById('humidity').textContent = response.main.humidity;
 
           event.preventDefault();
-        })
+        })*/
     }
 
     </script>
@@ -71,8 +79,7 @@ Update your function that makes calls to Open Weather Map to accept either a zip
     <form>
       <fieldset>
         <legend> <h2>Zipcode Submission</h2> </legend>
-        <p><input id="zipIn" type="text"
-         value="enter zip"> Zipcode</p>
+        <p><input id="zipIn" type="text"> Zipcode</p>
          <input type="submit" id="zipSubmit">
       </fieldset>
     </form>
