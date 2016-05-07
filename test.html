@@ -28,7 +28,7 @@ Update your function that makes calls to Open Weather Map to accept either a zip
           req.open("POST", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.zip + 
             ",us&APPID=" + apikey, true);
           
-         req.setRequestHeader('Content-Type', 'application/json');
+         // req.setRequestHeader('Content-Type', 'application/json');
 
           req.addEventListener('load', function() {
             if(req.status >= 200 && req.status < 400) {
@@ -46,7 +46,7 @@ Update your function that makes calls to Open Weather Map to accept either a zip
       })
 
       // submission button for city
-      /*
+   
       document.getElementById('citySubmit').addEventListener('click', function(event) {
           var req = new XMLHttpRequest();
 
@@ -69,7 +69,9 @@ Update your function that makes calls to Open Weather Map to accept either a zip
           document.getElementById('humidity').textContent = response.main.humidity;
 
           event.preventDefault();
-        })*/
+        })
+
+      
     }
 
     </script>
@@ -97,12 +99,19 @@ Update your function that makes calls to Open Weather Map to accept either a zip
         value="enter city, state">
        City and State</p>-->
 
-
+    <form>
+      <fieldset>
+        <legend><h2>Enter Text Here</h2></legend>
+        <textarea></textarea> <br>
+        <input type="submit" id="otherSubmit">
+      </fieldset>
+    </form>
 
     <h2>Results</h2>
     <div>City: <span id="city"></span></div>
     <div>Temp: <span id="temp"></span>K</div>
     <div>Humidity: <span id="humidity"></span>%</div>
+    <div>Other textfield: <span id="otherReturn"></span><div>
 
   </body>
 </html>
