@@ -54,24 +54,27 @@ Update your function that makes calls to Open Weather Map to accept either a zip
           // saves value of field zipIn to payload.zip
           payload.city = document.getElementById('cityIn').value; 
            
-          if (payload.city != null) {
-            req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.city + 
-              "&appid=" + apikey, false);
-          }
-          
-          req.send(null);
-          event.preventDefault();
-          var response = JSON.parse(req.responseText);
-          console.log(response.name);
-          console.log(response);
-          document.getElementById('city').textContent = response.name;
-          document.getElementById('temp').textContent = response.main.temp;
-          document.getElementById('humidity').textContent = response.main.humidity;
 
-          event.preventDefault();
-        })
+          req.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=" + payload.city + 
+              "&appid=" + apikey, true);
+ 
+          req.addEventListener('load', function() {
+            if(req.status >= 200 && req.status < 400) {
+            var response = JSON.parse(req.responseText);
+            document.getElementById('city').textContent = response.name;
+            document.getElementById('temp').textContent = response.main.temp;
+            document.getElementById('humidity').textContent = response.main.humidity;
+            } else {
+              console.log("Error in network request: " + request.statusText);
+            }
+          });
 
-      
+          req.send(JSON.stringify(payload));
+          event.preventDefault();
+
+        });
+
+
     }
 
     </script>
@@ -102,7 +105,7 @@ Update your function that makes calls to Open Weather Map to accept either a zip
     <form>
       <fieldset>
         <legend><h2>Enter Text Here</h2></legend>
-        <textarea></textarea> <br>
+         <p><input id="otherInput" type="text"> Enter random text here.</p>
         <input type="submit" id="otherSubmit">
       </fieldset>
     </form>
